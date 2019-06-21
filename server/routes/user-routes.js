@@ -4,8 +4,7 @@ var express = require("express"),
 var User = require("../models/buzz-model").User;
 
 router.get("/", (req, res, next) => {
-  console.log(">>>>>>>>>>>>>>", req.user);
-  if (!req.user) res.send({ user: "false" });
+  if (!req.user) res.send(false);
   var user = req.user;
   res.json(user);
 });

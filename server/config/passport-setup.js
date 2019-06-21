@@ -23,6 +23,7 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       // check if user already exists in our own db
+      console.log(profile);
       User.findOne({ googleId: profile.id }).then(currentUser => {
         if (currentUser) {
           // already have this user
@@ -30,17 +31,33 @@ passport.use(
           done(null, currentUser);
         } else {
           // if not, create user in our db
-          console.log(profile);
-          new User({
-            googleId: profile.id,
-            username: profile.displayName,
-            picture: profile._json.image.url,
-            email: profile.emails[0].value
-          })
-            .save()
-            .then(newUser => {
-              done(null, newUser);
-            });
+
+          let url = profile.photos[0].value.replace("s50", "");
+          let email = profile.emails[0].value;
+          if (email === "mahesh.singh@tothenew.com") {
+            new User({
+              googleId: profile.id,
+              username: profile.displayName,
+              picture: url,
+              email: email,
+              isAdmin: true
+            })
+              .save()
+              .then(newUser => {
+                done(null, newUser);
+              });
+          } else {
+            new User({
+              googleId: profile.id,
+              username: profile.displayName,
+              picture: url,
+              email: email
+            })
+              .save()
+              .then(newUser => {
+                done(null, newUser);
+              });
+          }
         }
       });
     }

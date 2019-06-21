@@ -1,11 +1,13 @@
-import { createStore } from "redux";
-import { user, buzz } from "../reducers/reducer";
+import { createStore, applyMiddleware } from "redux";
+import buzzs from "../reducer/buzz-reducer";
+import complaints from "../reducer/complaint-reducer";
+import { user } from "../reducer/user-reducer";
 import { combineReducers } from "redux";
-import logger from "../middleware/logger";
+import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({
+const reducers = combineReducers({
   buzzs,
   user,
   complaints
 });
-export const store = createStore(buzzs, user, complaints);
+export const store = createStore(reducers, applyMiddleware(thunk));

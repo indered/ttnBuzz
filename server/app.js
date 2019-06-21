@@ -73,7 +73,7 @@ app.use(logger("dev"));
 // set up routes
 app.use("/auth", authRoutes);
 app.use("/user", authCheck, userRoutes);
-app.use("/buzz", authCheck, buzzRoutes);
+app.use("/buzz", buzzRoutes);
 app.use("/profile", authCheck, profileRoutes);
 app.use("/complaint", authCheck, complaintRoutes);
 

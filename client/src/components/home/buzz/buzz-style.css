@@ -1,0 +1,25 @@
+.form {
+  width: 90%;
+  margin: 60px 0 0 0;
+  border: 1px solid rgb(165, 172, 169);
+  border-radius: 5px;
+}
+
+#formTitle {
+  /* display: block; */
+  background-color: rgb(83, 109, 102);
+  color: white;
+  font-size: 25px;
+  padding: 20px;
+  font-weight: bold;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  resize: none;
+}

@@ -1,16 +1,16 @@
 const router = require("express").Router();
 const passport = require("passport");
-
+const authCheck = require("../middlewares/authCheck");
 // auth login
 router.get("/login", (req, res) => {
   res.render("login", { user: req.user });
 });
 
 // auth logout
-router.get("/logout", (req, res) => {
+router.get("/logout", authCheck, (req, res) => {
   // handle with passport
   req.logOut();
-  res.redirect("/");
+  res.send("success");
 });
 
 // auth with google+
@@ -24,7 +24,7 @@ router.get(
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.redirect("http://localhost:3001/buzz");
+  res.redirect("http://localhost:3001/home");
 });
 
 module.exports = router;

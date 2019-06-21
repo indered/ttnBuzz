@@ -43,12 +43,11 @@ router.get("/", (req, res, next) => {
 //route for creating buzz
 
 router.post("/", (req, res, next) => {
-  new Buzz(req.body).save().then(newBuzz => {
-    if (!newBuzz) return next(err);
-
+  var buzz = new Buzz(req.body);
+  buzz.save(function(err, buzz) {
+    if (err) return next(err);
     res.status(201);
-
-    res.json(newBuzz);
+    res.json(buzz);
   });
 });
 
@@ -71,6 +70,21 @@ router.put("/:buzzId", (req, res) => {
       res.json(buzz);
     });
   });
+});
+
+//delete /:buzzId
+//delete a buzz
+
+router.delete("/:buzzId", (req, res, next) => {
+  req.buzz.remove(err => {
+    if (err) return next(err);
+  });
+  Buzz.find({})
+    .sort({ createdAt: -1 })
+    .exec((err, buzzs) => {
+      if (err) next(err);
+      res.json(buzzs);
+    });
 });
 
 // post :buzzId/comments
@@ -100,8 +114,8 @@ router.put("/:buzzId/comments/:comId", (req, res, next) => {
 // delete /:buzzId/comments/:comId
 //deleting a comment
 
-router.delete("/:buzzID/comments/:comId", (req, res) => {
-  req.comment.remove(() => {
+router.delete("/:buzzId/comments/:comId", (req, res, next) => {
+  req.comment.remove(err => {
     req.buzz.save((err, buzz) => {
       if (err) return next(err);
       res.json(buzz);

@@ -10,12 +10,12 @@ var CommentSchema = new Schema({
   text: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  commentedBy: { type: Schema.Types.ObjectId, ref: User }
+  commentedBy: { type: Schema.Types.ObjectId }
 });
 
 var ReactionSchema = new Schema({
-  type: { type: String },
-  reactedBy: { type: Schema.Types.ObjectId, ref: User, unique: true }
+  type: String,
+  reactedBy: { type: Schema.Types.ObjectId }
 });
 
 var BuzzSchema = new Schema({
