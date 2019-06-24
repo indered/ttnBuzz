@@ -1,0 +1,38 @@
+.border {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(79, 99, 91);
+  border-radius: 30%;
+  position: absolute;
+  right: 10%;
+  bottom: 27px;
+  border: 20px solid;
+  border-color: rgb(18, 32, 30) #c7c4c4 #c7c4c4 #c7c4c4;
+  animation: border 2s ease-in-out infinite;
+}
+
+@keyframes border {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    width: 25px;
+    height: 25px;
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+#create-buzz {
+  position: relative;
+}
+
+.attachment {
+  position: absolute;
+  left: 42%;
+  top: 30%;
+}

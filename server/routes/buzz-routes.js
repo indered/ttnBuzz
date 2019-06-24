@@ -1,5 +1,24 @@
 var express = require("express"),
   router = express.Router();
+var keys = require("../config/keys");
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: keys.cloudinary.cloudName,
+  api_key: keys.cloudinary.apiKey,
+  api_secret: keys.cloudinary.apiSecret
+});
+
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "ttn",
+  allowedFormats: ["jpg", "png"],
+  transformation: [{ width: 500, height: 500, crop: "limit" }]
+});
+
+const parser = multer({ storage: storage });
 
 var Buzz = require("../models/buzz-model").Buzz;
 
@@ -32,6 +51,7 @@ router.param("comId", (req, res, next, id) => {
 
 router.get("/", (req, res, next) => {
   Buzz.find({})
+    .populate("postedBy")
     .sort({ createdAt: -1 })
     .exec((err, buzzs) => {
       if (err) next(err);
@@ -43,59 +63,111 @@ router.get("/", (req, res, next) => {
 //route for creating buzz
 
 router.post("/", (req, res, next) => {
-  var buzz = new Buzz(req.body);
-  buzz.save(function(err, buzz) {
-    if (err) return next(err);
-    res.status(201);
-    res.json(buzz);
+  var buzz = new Buzz({
+    ...req.body.buzz,
+    postedBy: req.user._id
+  });
+
+  buzz.save().then(buzz => {
+    Buzz.findOne(buzz)
+      .populate("postedBy")
+      .exec((err, buzz) => {
+        console.log(buzz);
+        if (err) next(err);
+        res.json(buzz);
+      });
   });
 });
 
+//upload image
+
+router.post("/:buzzId/upload", parser.single("image"), (req, res) => {
+  console.log("url", req.file);
+  Buzz.update(req.buzz, {
+    ...req.body,
+    picture: req.file.url
+  }).then(() => {
+    Buzz.findOne({ _id: req.params.buzzId })
+      .populate("postedBy")
+      .then(buzz => {
+        res.json(buzz);
+      });
+  });
+
+  // to see what is returned to you  const image = {};  image.url = req.file.url;  image.id = req.file.public_id;
+  // save image information in database    .then(newImage => res.json(newImage))    .catch(err => console.log(err));});
+});
 //get :buzzId
 // route for specific buzz
 
 router.get("/:buzzId", (req, res) => {
-  res.json(req.buzz);
+  Buzz.findOne(req.buzz)
+    .populate("postedBy")
+    .exec((err, buzz) => {
+      console.log(buzz);
+      if (err) next(err);
+      res.json(buzz);
+    });
 });
 
 // put /:buzzId
 //edit an post
 
 router.put("/:buzzId", (req, res) => {
-  Buzz.update(req.buzz, {
-    ...req.body,
-    updatedAt: new Date()
-  }).then(() => {
-    Buzz.findOne({ _id: req.params.buzzId }).then(buzz => {
-      res.json(buzz);
+  if (req.buzz.postedBy.id === req.user._id)
+    Buzz.update(req.buzz, {
+      ...req.body,
+      updatedAt: new Date()
+    }).then(() => {
+      Buzz.findOne({ _id: req.params.buzzId })
+        .populate("postedBy")
+        .then(buzz => {
+          res.json(buzz);
+        });
     });
-  });
 });
 
 //delete /:buzzId
 //delete a buzz
 
 router.delete("/:buzzId", (req, res, next) => {
-  req.buzz.remove(err => {
-    if (err) return next(err);
-  });
-  Buzz.find({})
-    .sort({ createdAt: -1 })
-    .exec((err, buzzs) => {
-      if (err) next(err);
-      res.json(buzzs);
+  if (JSON.stringify(req.buzz.postedBy) === JSON.stringify(req.user._id)) {
+    let buzzDeleted = req.buzz.id;
+    req.buzz.remove(err => {
+      if (err) return next(err);
+      res.json(buzzDeleted);
     });
+  }
 });
+
+// Buzz.find({})
+//   .sort({ createdAt: -1 })
+//   .exec((err, buzzs) => {
+//     if (err) next(err);
+//     res.json(buzzs);
+//   });
 
 // post :buzzId/comments
 //route for commenting
 
 router.post("/:buzzId/comments", (req, res, next) => {
-  req.buzz.comments.push(req.body);
-  req.buzz.save((err, buzz) => {
-    if (err) return next(err);
-    res.status(201);
-    res.json(buzz);
+  let comment = {
+    ...req.body,
+    commentedBy: {
+      name: req.user.username,
+      id: req.user._id
+    }
+  };
+
+  req.buzz.comments.push(comment);
+  req.buzz.save().then(buzz => {
+    Buzz.findOne(buzz)
+      .populate("postedBy")
+      .exec((err, buzz) => {
+        console.log(buzz);
+        if (err) next(err);
+        res.json(buzz);
+      });
   });
 });
 
@@ -103,24 +175,38 @@ router.post("/:buzzId/comments", (req, res, next) => {
 //edit a comment
 
 router.put("/:buzzId/comments/:comId", (req, res, next) => {
-  req.comment.text = req.body.text;
-  req.comment.updatedAt = Date.now();
-  req.buzz.save((err, buzz) => {
-    if (err) next(err);
-    else res.json(buzz);
-  });
+  if (req.comment.commentedBy == req.user._id) {
+    req.comment.text = req.body.text;
+    req.comment.updatedAt = Date.now();
+
+    req.buzz.save().then(buzz => {
+      Buzz.findOne(buzz)
+        .populate("postedBy")
+        .exec((err, buzz) => {
+          console.log(buzz);
+          if (err) next(err);
+          res.json(buzz);
+        });
+    });
+  }
 });
 
 // delete /:buzzId/comments/:comId
 //deleting a comment
 
 router.delete("/:buzzId/comments/:comId", (req, res, next) => {
-  req.comment.remove(err => {
-    req.buzz.save((err, buzz) => {
-      if (err) return next(err);
-      res.json(buzz);
+  if (req.comment.commentedBy.id == req.user._id)
+    req.comment.remove(err => {
+      req.buzz.save().then(buzz => {
+        Buzz.findOne(buzz)
+          .populate("postedBy")
+          .exec((err, buzz) => {
+            console.log(buzz);
+            if (err) next(err);
+            res.json(buzz);
+          });
+      });
     });
-  });
 });
 
 //post /:buzzId/reaction
@@ -131,22 +217,54 @@ router.post("/:buzzId/react-:type", (req, res, next) => {
     err.status = 404;
     next(err);
   } else {
-    var reaction = {
-      type: req.params.type
-    };
-    req.buzz.reactions.unshift(reaction);
-
-    req.buzz.save((err, buzz) => {
-      if (err) return next(err);
-      res.status(201);
-      res.json(buzz);
-    });
-    // req.reactions.push[reaction];
-    // req.buzz.save((err, buzz) => {
-    //   if (err) next(err);
-    //   else res.json(buzz);
-    // });
+    const isReacted = req.buzz.reactions.findIndex(
+      reaction => reaction.reactedBy.id == req.user._id
+    );
+    if (isReacted < 0) {
+      var reaction = {
+        type: req.params.type,
+        reactedBy: {
+          id: req.user._id,
+          name: req.user.username
+        }
+      };
+      req.buzz.reactions.unshift(reaction);
+    } else {
+      req.buzz.reactions[isReacted].type = req.params.type;
+    }
   }
+
+  req.buzz.save().then(buzz => {
+    Buzz.findOne(buzz)
+      .populate("postedBy")
+      .exec((err, buzz) => {
+        console.log(buzz);
+        if (err) next(err);
+        res.json(buzz);
+      });
+  });
+});
+
+//delete reaction
+//unreact buzz
+
+router.delete("/:buzzId/unreact", (req, res, next) => {
+  const reactions = req.buzz.reactions.filter(
+    reaction => reaction.reactedBy.id != req.user._id
+  );
+  console.log(reactions);
+
+  req.buzz.reactions = [...reactions];
+
+  req.buzz.save().then(buzz => {
+    Buzz.findOne(buzz)
+      .populate("postedBy")
+      .exec((err, buzz) => {
+        console.log(buzz);
+        if (err) next(err);
+        res.json(buzz);
+      });
+  });
 });
 
 module.exports = router;

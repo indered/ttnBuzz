@@ -1,14 +1,12 @@
 import { FETCH_USER_SUCCESS, FETCH_USER_FAILED } from "../actions/action-types";
 
-export const user = (state = {}, action) => {
+const userReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_USER_SUCCESS: {
-      console.log(("success user:", action.user));
       return action.user;
     }
 
     case FETCH_USER_FAILED: {
-      console.log("failed user:" + action.user);
       return action.user;
     }
 
@@ -17,3 +15,4 @@ export const user = (state = {}, action) => {
     }
   }
 };
+export default userReducer;

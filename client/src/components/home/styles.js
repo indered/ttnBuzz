@@ -47,7 +47,7 @@ export const Button = styled.button`
 
 export const Cover = styled.div`
   background: url("https://i.ibb.co/d4f4bmy/banner2.jpg") no-repeat;
-  height: 350px;
+  height: 250px;
   width: 100%;
   background-size: cover;
 `;

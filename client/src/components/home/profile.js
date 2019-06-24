@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     width: 150,
     height: 150,
     position: "absolute",
-    top: "40%"
+    top: "25%"
   }
 });
 

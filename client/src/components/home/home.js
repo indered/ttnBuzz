@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Header from "./header";
 import { Cover } from "./styles";
-
 import Profile from "./profile";
 import Menu from "./menu";
 import "./home-style.css";
@@ -29,7 +28,7 @@ class Home extends Component {
         </section>
         <Profile />
         <section className="body">
-          <Menu />
+          <Menu isAdmin={this.props.user.isAdmin} />
         </section>
       </div>
     );

@@ -1,4 +1,4 @@
-const complaints = (state = {}, action) => {
+const complaintReducer = (state = {}, action) => {
   switch (action.type) {
     case "ADD_TO_CART": {
     }
@@ -15,4 +15,4 @@ const complaints = (state = {}, action) => {
   }
 };
 
-export default complaints;
+export default complaintReducer;

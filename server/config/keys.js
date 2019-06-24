@@ -14,5 +14,10 @@ module.exports = {
   },
   session: {
     cookieKey: "bingo"
+  },
+  cloudinary: {
+    cloudName: "dezion3cl",
+    apiKey: "621481315351928",
+    apiSecret: "LNhqbj6DPyuq33NS71EMoBxI7VE"
   }
 };

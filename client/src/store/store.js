@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from "redux";
-import buzzs from "../reducer/buzz-reducer";
-import complaints from "../reducer/complaint-reducer";
-import { user } from "../reducer/user-reducer";
+import buzz from "../reducer/buzz-reducer";
+import complaint from "../reducer/complaint-reducer";
+import user from "../reducer/user-reducer";
 import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 
 const reducers = combineReducers({
-  buzzs,
+  buzz,
   user,
-  complaints
+  complaint
 });
 export const store = createStore(reducers, applyMiddleware(thunk));

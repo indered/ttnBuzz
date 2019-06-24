@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import posed from "react-pose";
 import "./home-style.css";
-import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Buzz from "./buzz/buzz";
@@ -31,29 +30,62 @@ const StyledItem = styled(Item)`
   border-bottom: 2px solid rgb(222, 225, 226);
   position: relative;
 `;
+const StyledSideBar = styled(Sidebar)`
+  margin: 60px 0 0 40px;
+  border: 1px rgb(219, 219, 219) solid;
+  display: inline-flex;
+  width: 250px;
+  height: ${props => props.sideMenuHeight};
+  padding: 0;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  -webkit-box-shadow: -1px 7px 17px -9px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -1px 7px 17px -9px rgba(0, 0, 0, 1);
+  box-shadow: -1px 7px 17px -9px rgba(0, 0, 0, 1);
+`;
 
 class Menu extends Component {
   state = {
-    isOpen: false,
-    menuItems: ["Buzz", "Complaints"]
+    isOpen: false
+  };
+
+  menuItems = [];
+  sideMenuHeight = "";
+
+  handleMenuItems = () => {
+    if (this.props.isAdmin === false) {
+      this.menuItems = ["Buzz", "Complaints"];
+      this.sideMenuHeight = "135px";
+    } else {
+      this.menuItems = ["Buzz", "Complaints", "Resolve"];
+      this.sideMenuHeight = "205px";
+    }
   };
 
   componentDidMount() {
     setTimeout(this.toggle, 500);
-    console.log(this.state);
   }
 
   toggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
-    const { isOpen, menuItems } = this.state;
+    this.handleMenuItems();
+    const { isOpen } = this.state;
 
     return (
       <Router>
-        <Sidebar className="sidebar" pose={isOpen ? "open" : "closed"}>
-          {menuItems.map((item, i) => {
+        <StyledSideBar
+          className="sidebar"
+          sideMenuHeight={this.sideMenuHeight}
+          pose={isOpen ? "open" : "closed"}
+        >
+          {this.menuItems.map((item, i) => {
             return (
-              <NavLink to={`/home/${item}`} activeClassName="selected-item">
+              <NavLink
+                to={`/home/${item}`}
+                key={i}
+                activeClassName="selected-item"
+              >
                 <StyledItem className="item">
                   <span> {item}</span>
                   <i className="fas fa-chevron-right" />
@@ -61,17 +93,7 @@ class Menu extends Component {
               </NavLink>
             );
           })}
-          {(() => {
-            if (this.props.user.isAdmin)
-              return (
-                <NavLink to={`/home/Resolve`} activeClassName="selected-item">
-                  <StyledItem className="item">
-                    <span>Resolve </span> <i className="fas fa-chevron-right" />
-                  </StyledItem>
-                </NavLink>
-              );
-          })()}
-        </Sidebar>
+        </StyledSideBar>
         <Route exact path="/home/Buzz" render={() => <Buzz />} />
         <Route exact path="/home/Complaints" render={() => <Complaints />} />
         <Route exact path="/home/Resolve" render={() => <Resolve />} />
@@ -79,10 +101,5 @@ class Menu extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
-};
 
-export default connect(mapStateToProps)(Menu);
+export default Menu;

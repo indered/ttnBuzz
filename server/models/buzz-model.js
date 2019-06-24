@@ -10,12 +10,15 @@ var CommentSchema = new Schema({
   text: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  commentedBy: { type: Schema.Types.ObjectId }
+  commentedBy: { name: String, id: String }
 });
 
 var ReactionSchema = new Schema({
   type: String,
-  reactedBy: { type: Schema.Types.ObjectId }
+  reactedBy: {
+    name: String,
+    id: String
+  }
 });
 
 var BuzzSchema = new Schema({
@@ -25,8 +28,11 @@ var BuzzSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   comments: [CommentSchema],
   reactions: [ReactionSchema],
-  attachment: { type: String },
-  postedBy: { type: Schema.Types.ObjectId, ref: User }
+  picture: String,
+  postedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 BuzzSchema.pre("save", function(next) {
