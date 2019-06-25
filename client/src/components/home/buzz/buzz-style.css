@@ -197,14 +197,10 @@ textarea {
   border-top: 1px solid rgb(223, 215, 215);
   padding-top: 10px;
   width: 95%;
-  position: absolute;
-  bottom: 65px;
   color: rgb(89, 94, 97);
-  top: 160px;
-  left: 20px;
   font-size: 15px;
   font-weight: 550;
-  margin-bottom: 15px;
+  margin-bottom: -30px;
 }
 
 .name-on-card {
