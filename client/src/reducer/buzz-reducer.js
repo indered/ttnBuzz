@@ -1,16 +1,11 @@
 import {
   POST_BUZZ_STARTED,
   POST_BUZZ_SUCCESS,
-  UPDATE_BUZZ_STARTED,
-  UPDATE_BUZZ_SUCCESS,
-  UPDATE_COMMENT_STARTED,
-  UPDATE_COMMENT_SUCCESS,
   DELETE_BUZZ_STARTED,
+  NO_MORE_BUZZ,
   DELETE_BUZZ_SUCCESS,
   GET_BUZZ_STARTED,
   GET_BUZZ_SUCCESS,
-  COMMENT_BUZZ_STARTED,
-  COMMENT_BUZZ_SUCCESS,
   REACT_BUZZ_STARTED,
   REACT_BUZZ_SUCCESS,
   REACT_BUZZ_FAILED,
@@ -19,14 +14,22 @@ import {
   UNREACT_BUZZ_FAILED,
   GET_BUZZ_FAILED,
   POST_BUZZ_FAILED,
-  DELETE_BUZZ_FAILED
+  DELETE_BUZZ_FAILED,
+  COMMENT_BUZZ_FAILED,
+  COMMENT_BUZZ_STARTED,
+  COMMENT_BUZZ_SUCCESS,
+  DELETE_COMMENT_FAILED,
+  DELETE_COMMENT_STARTED,
+  DELETE_COMMENT_SUCCESS,
+  DELETE_BUZZ_FROM_STORE
 } from "../actions/action-types";
 
 const buzzState = {
   buzzs: [],
   loadingWhilePosting: false,
   loadingWhileGetting: false,
-  loadingWhileDeleting: false
+  loadingWhileDeleting: false,
+  allBuzzFetched: false
 };
 
 //buzz reducer
@@ -38,12 +41,20 @@ const buzzReducer = (state = buzzState, action) => {
     }
 
     case GET_BUZZ_SUCCESS: {
-      const buzzs = action.buzzs;
-      return { ...state, buzzs, loadingWhileGetting: false };
+      const buzzs = [...state.buzzs, ...action.buzzs];
+      return {
+        ...state,
+        buzzs,
+        loadingWhileGetting: false
+      };
     }
 
     case GET_BUZZ_FAILED: {
       return { ...state, loadingWhileGetting: false };
+    }
+
+    case NO_MORE_BUZZ: {
+      return { ...state, loadingWhileGetting: false, allBuzzFetched: true };
     }
 
     case POST_BUZZ_STARTED: {
@@ -51,9 +62,8 @@ const buzzReducer = (state = buzzState, action) => {
     }
 
     case POST_BUZZ_SUCCESS: {
-      console.log("reducer suucerss");
       const buzzs = [action.buzz, ...state.buzzs];
-      console.log(buzzs);
+
       return {
         ...state,
         buzzs,
@@ -95,7 +105,6 @@ const buzzReducer = (state = buzzState, action) => {
       const index = state.buzzs.findIndex(buzz => buzz._id === action.buzz._id);
       const buzzs = [...state.buzzs];
       buzzs[index] = action.buzz;
-      console.log("success", buzzs);
 
       return {
         ...state,
@@ -108,7 +117,6 @@ const buzzReducer = (state = buzzState, action) => {
     }
 
     case UNREACT_BUZZ_STARTED: {
-      console.log("unreact started");
       return { ...state };
     }
 
@@ -116,7 +124,7 @@ const buzzReducer = (state = buzzState, action) => {
       const index = state.buzzs.findIndex(buzz => buzz._id === action.buzz._id);
       const buzzs = [...state.buzzs];
       buzzs[index] = action.buzz;
-      console.log("unreact success", buzzs);
+
       return {
         ...state,
         buzzs
@@ -124,8 +132,52 @@ const buzzReducer = (state = buzzState, action) => {
     }
 
     case UNREACT_BUZZ_FAILED: {
-      console.log("unreact failed");
       return { ...state };
+    }
+
+    case COMMENT_BUZZ_STARTED: {
+      return { ...state };
+    }
+
+    case COMMENT_BUZZ_SUCCESS: {
+      const index = state.buzzs.findIndex(buzz => buzz._id === action.buzz._id);
+      const buzzs = [...state.buzzs];
+      buzzs[index] = action.buzz;
+
+      return {
+        ...state,
+        buzzs
+      };
+    }
+
+    case COMMENT_BUZZ_FAILED: {
+      return { ...state };
+    }
+
+    case DELETE_COMMENT_STARTED: {
+      return { ...state };
+    }
+
+    case DELETE_COMMENT_SUCCESS: {
+      const index = state.buzzs.findIndex(buzz => buzz._id === action.buzz._id);
+
+      const buzzs = [...state.buzzs];
+      buzzs[index] = action.buzz;
+
+      return {
+        ...state,
+        buzzs
+      };
+    }
+
+    case DELETE_COMMENT_FAILED: {
+      return { ...state };
+    }
+
+    case DELETE_BUZZ_FROM_STORE: {
+      return {
+        ...buzzState
+      };
     }
 
     default: {

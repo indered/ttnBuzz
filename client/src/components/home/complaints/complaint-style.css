@@ -1,0 +1,365 @@
+.complaint-comp {
+  width: 90%;
+  border: 1px solid rgb(189, 189, 189);
+  border-radius: 3px;
+  position: relative;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+#complaintBoxTitle {
+  background-color: rgb(202, 214, 211);
+  color: rgb(43, 40, 40);
+  font-size: 15px;
+  padding: 7px 0 7px 40px;
+  position: relative;
+  font-weight: 500;
+}
+.fa-bug {
+  position: absolute;
+  left: 10px;
+}
+
+.body-content {
+  margin: 60px 0 0 65px;
+}
+.complaint-box-label {
+  display: block;
+  margin: 10px 0 2px 30px;
+  font-size: 17px;
+  font-weight: 500;
+  font-family: "Courier New", Courier, monospace;
+  color: #2f3534;
+}
+.department-select {
+  display: block;
+  width: 90%;
+}
+
+.issueTitle {
+  background: #ffffff;
+  width: 90%;
+  margin-left: 30px;
+}
+
+.attachment-comp {
+  width: 150px;
+  height: 40px;
+  position: absolute;
+  left: 26px;
+  bottom: 4px;
+}
+
+.attachment-comp::before {
+  content: "";
+  color: rgb(60, 99, 102);
+  display: inline-block;
+  filter: grayscale(100%);
+  background: url("https://img.icons8.com/color/48/000000/image.png") -5px -8px;
+  border: 1px solid #999;
+  height: 34px;
+  width: 40px;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+}
+
+.attachment-comp::-webkit-file-upload-button {
+  opacity: 0;
+  width: 40px;
+  visibility: hidden;
+}
+
+.complaint-submit-btn {
+  background: none;
+  outline: none;
+  color: #17352f;
+  border: 1px solid #adbebb;
+  padding: 5px 30px;
+  font-size: 17px;
+  border-radius: 5px;
+  transition: background 0.2s;
+  position: absolute;
+  right: 26px;
+  bottom: 10px;
+}
+.complaint-submit-btn:hover {
+  background: #17352f;
+  color: white;
+  border: none;
+}
+
+.concern {
+  width: 90%;
+  margin-left: 30px;
+  padding: 10px;
+  margin-bottom: 48px;
+  border: none;
+  font-size: 17px;
+  resize: none;
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+}
+.loader {
+  color: #ffffff;
+  font-size: 11px;
+  text-indent: -99999em;
+  margin: 55px auto;
+  position: relative;
+  width: 10em;
+  height: 10em;
+  box-shadow: inset 0 0 0 1em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  content: "";
+}
+.loader:before {
+  width: 5.2em;
+  height: 10.2em;
+  background: #0dc5c1;
+  border-radius: 10.2em 0 0 10.2em;
+  top: -0.1em;
+  left: -0.1em;
+  -webkit-transform-origin: 5.2em 5.1em;
+  transform-origin: 5.2em 5.1em;
+  -webkit-animation: load2 2s infinite ease 1.5s;
+  animation: load2 2s infinite ease 1.5s;
+}
+.loader:after {
+  width: 5.2em;
+  height: 10.2em;
+  background: #0dc5c1;
+  border-radius: 0 10.2em 10.2em 0;
+  top: -0.1em;
+  left: 5.1em;
+  -webkit-transform-origin: 0px 5.1em;
+  transform-origin: 0px 5.1em;
+  -webkit-animation: load2 2s infinite ease;
+  animation: load2 2s infinite ease;
+}
+@-webkit-keyframes load2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.border {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(79, 99, 91);
+  border-radius: 30%;
+  position: absolute;
+  right: 10%;
+  bottom: 27px;
+  border: 20px solid;
+  border-color: rgb(18, 32, 30) #c7c4c4 #c7c4c4 #c7c4c4;
+  animation: border 2s ease-in-out infinite;
+}
+
+@keyframes border {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    width: 25px;
+    height: 25px;
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+.select-menu {
+  padding: 10px 0 10px 7px;
+  background: none;
+  outline: none;
+  border-radius: 3px;
+  color: #2f3534;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 10px 0 10px 30px;
+}
+
+.select-menu option:hover {
+  background-color: rgb(8, 19, 19);
+  color: aliceblue;
+}
+
+.your-complaints-table {
+  border: 1px solid #d8dfde;
+  width: 90%;
+  table-layout: fixed;
+}
+
+.your-complaints-table,
+th,
+td {
+  border: 0.5px solid rgb(185, 183, 183);
+  padding: 5px;
+  text-align: center;
+  word-break: break-all;
+}
+
+.your-complaints-table td {
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.your-complaints-table {
+  margin-bottom: 5px;
+}
+
+table tr:nth-child(even) {
+  background: #dedee2;
+}
+th {
+  color: #cbccce;
+  background: #0f2852;
+  letter-spacing: 1px;
+}
+
+.your-comp-title {
+  background-color: rgb(202, 214, 211);
+  color: rgb(43, 40, 40);
+  font-size: 15px;
+  border: 1px solid rgb(189, 189, 189);
+  padding: 7px 0 7px 15px;
+  position: relative;
+  margin-bottom: 10px;
+  font-weight: 500;
+  width: 90%;
+}
+.cid {
+  width: 10%;
+}
+.issue-title {
+  width: 30%;
+}
+
+.status {
+  width: 10%;
+}
+.assigned-to {
+  width: 23%;
+}
+.status-progress {
+  color: rgb(30, 53, 49);
+  font-size: 15px;
+}
+.status-closed {
+  width: 20%;
+  color: rgb(27, 126, 72);
+}
+.status-open {
+  width: 10%;
+  color: rgb(255, 94, 0);
+}
+
+.department {
+  width: 10%;
+}
+
+.page-btn {
+  display: block;
+  position: relative;
+  height: 30px;
+}
+
+.fa-chevron-right {
+  display: inline-block;
+  position: absolute;
+  right: 45%;
+  font-size: 20px;
+  background: none;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.fa-chevron-left {
+  display: inline-block;
+  position: absolute;
+  left: 40%;
+  background: none;
+  font-size: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+}
+
+.fa-chevron-left:hover,
+.fa-chevron-right:hover {
+  background: #192630;
+  color: #c7c4c4;
+}
+.fa-chevron-left:focus,
+.fa-chevron-right:focus {
+  outline: none;
+}
+
+.table-container {
+  height: 700px;
+}
+
+.complaint-img {
+  display: inline-block;
+  height: 300px;
+  width: 340px;
+  transform: translateX(30%);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  background: none;
+}
+
+.issue-title-on-modal {
+  word-break: break-all;
+  margin-top: 10px;
+}
+
+.concern-on-modal {
+  word-break: break-all;
+}
+
+.status-on-modal {
+  margin: 0;
+}
+
+.to-on-modal {
+  margin: 0;
+}
+.createdAt-on-modal {
+  margin: 0;
+}

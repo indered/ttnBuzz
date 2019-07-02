@@ -11,19 +11,20 @@ import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import "./buzz-style.css";
-import Moment from "react-moment";
+import moment from "moment";
+import Comment from "./comment";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "flex-end",
-    padding: theme.spacing(3, 2)
+    padding: theme.spacing(1, 1),
+    position: "relative",
+    marginTop: "5px"
   },
   like: {
     margin: theme.spacing(2),
@@ -55,11 +56,12 @@ const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: "90%",
     margin: "10px 0",
-    position: "relative"
+    position: "relative",
+    paddingBottom: -40
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%"
   },
 
   expand: {
@@ -130,13 +132,11 @@ export default function BuzzCard(props) {
           />
         }
         action={(() => {
-          if (props.buzz.postedBy._id == props.user._id)
+          if (props.buzz.postedBy._id === props.user._id)
             return (
               <Tooltip title="Delete">
-                <IconButton>
-                  <DeleteIcon
-                    onClick={() => props.deleteBuzz(props.buzz._id)}
-                  />
+                <IconButton onClick={() => props.deleteBuzz(props.buzz._id)}>
+                  <DeleteIcon />
                 </IconButton>
               </Tooltip>
             );
@@ -145,9 +145,12 @@ export default function BuzzCard(props) {
           <h4 className="name-on-card"> {props.buzz.postedBy.username}</h4>
         ))()}
         subheader={(() => {
-          return <Moment date={props.buzz.createdAt} durationFromNow />;
+          return moment(props.buzz.createdAt).fromNow();
         })()}
       />
+      <CardContent>
+        <h3 className="buzztext">{props.buzz.text}</h3>
+      </CardContent>
       {(() => {
         if (props.buzz.picture)
           return (
@@ -158,21 +161,18 @@ export default function BuzzCard(props) {
             />
           );
       })()}
+      <h6 className="category">{props.buzz.category}</h6>
 
-      <CardContent>
-        <h3 className="buzztext">{props.buzz.text}</h3>
-        <h6 className="category">{props.buzz.category}</h6>
-      </CardContent>
       <CardActions disableSpacing>
         {(() => {
           const like = props.buzz.reactions.filter(reaction => {
             return (
               reaction.reactedBy.id === props.user._id &&
-              reaction.type == "like"
+              reaction.type === "like"
             );
           });
           const likes = props.buzz.reactions.filter(
-            reaction => reaction.type == "like"
+            reaction => reaction.type === "like"
           );
 
           if (like.length)
@@ -201,12 +201,12 @@ export default function BuzzCard(props) {
           const dislike = props.buzz.reactions.filter(reaction => {
             return (
               reaction.reactedBy.id === props.user._id &&
-              reaction.type == "dislike"
+              reaction.type === "dislike"
             );
           });
 
           const dislikes = props.buzz.reactions.filter(
-            reaction => reaction.type == "dislike"
+            reaction => reaction.type === "dislike"
           );
 
           if (dislike.length)
@@ -248,13 +248,22 @@ export default function BuzzCard(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+          <Comment buzzId={props.buzz._id} />
+
           {props.buzz.comments.map(comment => {
             return (
-              <Paper className={classes.root}>
-                <Typography variant="h5" component="h3">
-                  {comment.commentedBy.name}
-                </Typography>
-                <Typography component="p">{comment.text} </Typography>
+              <Paper className={classes.root} key={comment._id}>
+                {props.user._id === comment.commentedBy.id && (
+                  <button
+                    className="fas fa-minus"
+                    onClick={() =>
+                      props.handleCommentDelete(props.buzz._id, comment._id)
+                    }
+                  />
+                )}
+                <p className="commentedBy">{comment.commentedBy.name}</p>
+
+                <p className="comment-text">{comment.text} </p>
               </Paper>
             );
           })}

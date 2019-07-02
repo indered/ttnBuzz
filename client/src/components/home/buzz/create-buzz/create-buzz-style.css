@@ -36,3 +36,19 @@
   left: 42%;
   top: 30%;
 }
+
+.select-menu {
+  padding: 10px 0 10px 7px;
+  background: none;
+  outline: none;
+  border-radius: 3px;
+  color: #2f3534;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 10px 0 10px 30px;
+}
+
+.select-menu option:hover {
+  background-color: rgb(8, 19, 19);
+  color: aliceblue;
+}

@@ -55,7 +55,9 @@
 }
 
 .body {
-  background-color: rgb(222, 225, 226);
+  background-color: rgb(241, 244, 245);
+  min-width: 100%;
+  max-width: 100%;
 }
 
 .selected-item {

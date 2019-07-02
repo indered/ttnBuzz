@@ -20,7 +20,7 @@ const storage = cloudinaryStorage({
 
 const parser = multer({ storage: storage });
 
-var Buzz = require("../models/buzz-model").Buzz;
+var Buzz = require("../models/buzz-model");
 
 router.param("buzzId", (req, res, next, id) => {
   Buzz.findById(id, (err, doc) => {
@@ -49,8 +49,12 @@ router.param("comId", (req, res, next, id) => {
 //get buzzs
 //route for all the buzzs
 
-router.get("/", (req, res, next) => {
+router.get("/:skip/:limit", (req, res, next) => {
+  const limit = parseInt(req.params.limit);
+  const skip = parseInt(req.params.skip);
   Buzz.find({})
+    .skip(skip)
+    .limit(limit)
     .populate("postedBy")
     .sort({ createdAt: -1 })
     .exec((err, buzzs) => {
@@ -82,7 +86,6 @@ router.post("/", (req, res, next) => {
 //upload image
 
 router.post("/:buzzId/upload", parser.single("image"), (req, res) => {
-  console.log("url", req.file);
   Buzz.update(req.buzz, {
     ...req.body,
     picture: req.file.url
@@ -152,7 +155,7 @@ router.delete("/:buzzId", (req, res, next) => {
 
 router.post("/:buzzId/comments", (req, res, next) => {
   let comment = {
-    ...req.body,
+    text: req.body.comment.text,
     commentedBy: {
       name: req.user.username,
       id: req.user._id
@@ -164,7 +167,6 @@ router.post("/:buzzId/comments", (req, res, next) => {
     Buzz.findOne(buzz)
       .populate("postedBy")
       .exec((err, buzz) => {
-        console.log(buzz);
         if (err) next(err);
         res.json(buzz);
       });
@@ -183,7 +185,6 @@ router.put("/:buzzId/comments/:comId", (req, res, next) => {
       Buzz.findOne(buzz)
         .populate("postedBy")
         .exec((err, buzz) => {
-          console.log(buzz);
           if (err) next(err);
           res.json(buzz);
         });
@@ -252,7 +253,6 @@ router.delete("/:buzzId/unreact", (req, res, next) => {
   const reactions = req.buzz.reactions.filter(
     reaction => reaction.reactedBy.id != req.user._id
   );
-  console.log(reactions);
 
   req.buzz.reactions = [...reactions];
 

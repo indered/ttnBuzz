@@ -5,7 +5,7 @@ module.exports = {
   google: {
     clientID:
       "915001291508-74s995lv0gueq1bt7j38h9bagao1v3lu.apps.googleusercontent.com",
-    clientSecret: "AhJJD7575JStU1R9me-gpbOv"
+    clientSecret: "K5xGNWrEDH1TLWMNfSkaidiI"
   },
   mongodb: {
     dbURI:

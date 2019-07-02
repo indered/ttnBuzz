@@ -49,3 +49,4 @@ BuzzSchema.pre("save", function(next) {
 var Buzz = mongoose.model("Buzz", BuzzSchema);
 
 module.exports.Buzz = Buzz;
+module.exports = Buzz;

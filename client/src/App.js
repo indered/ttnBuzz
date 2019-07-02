@@ -12,30 +12,6 @@ class App extends Component {
     this.props.fetchUser();
   }
 
-  // componentDidMount() {
-  //   axios
-  //     .get(`http://localhost:3000/user`)
-  //     .then(response => {
-  //       let user = response.data;
-  //       this.setState(
-  //         {
-  //           userLoggedIn: true,
-  //           user: user
-  //         },
-  //         () => console.log(this.state)
-  //       );
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       this.setState(
-  //         {
-  //           userLoggedIn: false
-  //         },
-  //         () => console.log(this.state)
-  //       );
-  //     });
-  // }
-
   render() {
     return (
       <Router>
@@ -43,20 +19,37 @@ class App extends Component {
           exact
           path="/"
           render={() =>
-            !this.props.user ? <Login /> : <Redirect to="/home/buzz" />
+            !this.props.user ? <Login /> : <Redirect to="/home" />
           }
         />
         <Route
           exact
           path="/home"
           render={() =>
-            !this.props.user ? <Login /> : <Redirect to="/home/buzz" />
+            !this.props.user ? <Login /> : <Redirect to="/home/Buzz" />
           }
         />
         <Route
           exact
-          path="/home/buzz"
-          render={() => (this.props.user ? <Home /> : <Redirect to="/" />)}
+          path="/home/Buzz"
+          render={props =>
+            this.props.user ? <Home {...props} /> : <Redirect to="/" />
+          }
+        />
+        <Route
+          exact
+          path="/home/Complaints"
+          render={props =>
+            this.props.user ? <Home {...props} /> : <Redirect to="/" />
+          }
+        />
+
+        <Route
+          exact
+          path="/home/Resolve"
+          render={props =>
+            this.props.user ? <Home {...props} /> : <Redirect to="/" />
+          }
         />
       </Router>
     );

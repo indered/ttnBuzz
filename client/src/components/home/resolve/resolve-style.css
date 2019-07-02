@@ -1,0 +1,86 @@
+.admin-complaints-table th,
+td {
+  padding: 10px;
+  word-break: break-all;
+}
+
+.admin-complaints-table tr {
+  height: 25px;
+}
+
+.admin-table-container {
+  height: 650px;
+}
+
+.admin-complaints-table {
+  color: #cbccce;
+  width: 100%;
+}
+
+.admin-complaints-table {
+  color: #111f12;
+}
+
+.admin-comp-title {
+  background-color: rgb(202, 214, 211);
+  color: rgb(43, 40, 40);
+  font-size: 15px;
+  padding: 7px 0 7px 15px;
+  border: 1px solid rgb(173, 173, 173);
+  position: relative;
+  font-weight: 500;
+  width: 100%;
+}
+.cid {
+  width: 12%;
+}
+.issue-title {
+  width: 20%;
+}
+.posted-by {
+  width: 22%;
+}
+.status {
+  width: 10%;
+}
+.department {
+  width: 20%;
+}
+.options {
+  padding: 10px 0;
+  font-size: 17px;
+}
+
+.option-open {
+  color: red;
+}
+.option-closed {
+  color: rgb(34, 110, 34);
+}
+.option-progress {
+  color: rgb(19, 59, 75);
+}
+
+.date-on-modal {
+  position: absolute;
+  top: 15px;
+  right: 60px;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.resolve-status-select {
+  margin: 0;
+}
+
+.id-btn {
+  color: #0e3b61;
+}
+
+#no-resolve-complaints {
+  position: absolute;
+  top: 60%;
+  left: 35%;
+}

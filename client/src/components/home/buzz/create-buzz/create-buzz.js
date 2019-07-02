@@ -16,8 +16,6 @@ class CreateBuzz extends React.Component {
     picture: {}
   };
 
-  toggle = false;
-
   toggleSubmit = () => {
     this.setState({
       buzz: {
@@ -47,14 +45,9 @@ class CreateBuzz extends React.Component {
   };
 
   attachmentHandler = e => {
-    this.setState(
-      {
-        picture: e.target.files[0]
-      },
-      () => {
-        console.log(this.state.picture.name);
-      }
-    );
+    this.setState({
+      picture: e.target.files[0]
+    });
   };
 
   handleSubmit = (e, buzz) => {
@@ -71,8 +64,6 @@ class CreateBuzz extends React.Component {
     this.toggleSubmit();
   };
   render() {
-    const { loadingWhilePosting } = this.props;
-    console.log("loading", this.props);
     return (
       <div className="form">
         <div id="formTitle">
@@ -85,7 +76,7 @@ class CreateBuzz extends React.Component {
           encType="multipart/form-data"
         >
           <textarea
-            rows="4"
+            rows="3"
             cols="50"
             className="fields"
             placeholder="Share your thoughts..."
@@ -94,6 +85,7 @@ class CreateBuzz extends React.Component {
             value={this.state.buzz.text}
             name="text"
             type="text"
+            maxLength={200}
           />
           <div id="lower-form">
             <SimpleSelect

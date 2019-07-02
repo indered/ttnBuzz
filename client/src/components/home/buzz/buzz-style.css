@@ -1,6 +1,6 @@
 .form {
   width: 90%;
-  margin: 60px 0 62px 0;
+  margin: 0 0 90px 0;
   border: 1px solid rgb(189, 189, 189);
   border-radius: 3px;
 }
@@ -20,6 +20,7 @@ textarea {
   border: none;
   font-size: 17px;
   resize: none;
+  white-space: pre-wrap;
 }
 
 .fa-twitter {
@@ -146,7 +147,7 @@ textarea {
 .loader:before {
   width: 5.2em;
   height: 10.2em;
-  background: #0dc5c1;
+  background: #254140;
   border-radius: 10.2em 0 0 10.2em;
   top: -0.1em;
   left: -0.1em;
@@ -158,7 +159,7 @@ textarea {
 .loader:after {
   width: 5.2em;
   height: 10.2em;
-  background: #0dc5c1;
+  background: #254140;
   border-radius: 0 10.2em 10.2em 0;
   top: -0.1em;
   left: 5.1em;
@@ -189,8 +190,10 @@ textarea {
 }
 
 .buzztext {
-  margin-bottom: 40px;
-  font-size: 20px;
+  margin: -15px 0 0 0;
+  font-size: 18px;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .category {
@@ -200,7 +203,7 @@ textarea {
   color: rgb(89, 94, 97);
   font-size: 15px;
   font-weight: 550;
-  margin-bottom: -30px;
+  margin: 0 0 -22px 15px;
 }
 
 .name-on-card {
@@ -211,12 +214,12 @@ textarea {
 }
 
 .recentBuzz {
-  margin-top: 20px;
+  margin-top: -60px;
 }
 
 .recentBuzzHeading {
   background-color: rgb(202, 214, 211);
-  margin-bottom: -11px;
+  margin-bottom: 0px;
   border: 1px solid rgb(189, 189, 189);
   color: rgb(43, 40, 40);
   border-radius: 3px;
@@ -240,4 +243,45 @@ textarea {
 .react-count {
   margin-right: 40px;
   margin-left: -15px;
+}
+
+.category-select-menu {
+  width: 150px;
+  min-width: 100%;
+  position: relative;
+  position: absolute;
+}
+
+.no-more-content {
+  text-align: center;
+  margin: 30px 0;
+  background: #ececec;
+  width: 90%;
+  border: 1px solid rgb(207, 207, 207);
+}
+
+.commentedBy {
+  color: #30829b;
+  font-size: 15px;
+  position: absolute;
+  top: 2px;
+  left: 8px;
+}
+.comment-text {
+  font-size: 15px;
+  margin: 17px 0 -5px 0;
+  line-height: 20px;
+  word-break: break-all;
+}
+
+.fa-minus {
+  position: absolute;
+  border: none;
+  background: none;
+  color: rgb(175, 174, 174);
+  top: 10px;
+  right: 5px;
+}
+.fa-minus :hover {
+  color: red;
 }

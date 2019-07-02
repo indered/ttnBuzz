@@ -45,9 +45,12 @@ const StyledSideBar = styled(Sidebar)`
 `;
 
 class Menu extends Component {
-  state = {
-    isOpen: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
 
   menuItems = [];
   sideMenuHeight = "";
@@ -73,31 +76,42 @@ class Menu extends Component {
     const { isOpen } = this.state;
 
     return (
-      <Router>
-        <StyledSideBar
-          className="sidebar"
-          sideMenuHeight={this.sideMenuHeight}
-          pose={isOpen ? "open" : "closed"}
-        >
-          {this.menuItems.map((item, i) => {
-            return (
-              <NavLink
-                to={`/home/${item}`}
-                key={i}
-                activeClassName="selected-item"
-              >
-                <StyledItem className="item">
-                  <span> {item}</span>
-                  <i className="fas fa-chevron-right" />
-                </StyledItem>
-              </NavLink>
-            );
-          })}
-        </StyledSideBar>
-        <Route exact path="/home/Buzz" render={() => <Buzz />} />
-        <Route exact path="/home/Complaints" render={() => <Complaints />} />
-        <Route exact path="/home/Resolve" render={() => <Resolve />} />
-      </Router>
+      <React.Fragment>
+        <Router>
+          <StyledSideBar
+            className="sidebar"
+            sideMenuHeight={this.sideMenuHeight}
+            pose={isOpen ? "open" : "closed"}
+          >
+            {this.menuItems.map((item, i) => {
+              return (
+                <NavLink
+                  to={`/home/${item}`}
+                  key={i}
+                  activeClassName="selected-item"
+                >
+                  <StyledItem className="item">
+                    <span> {item}</span>
+                    <i className="fas fa-chevron-right" />
+                  </StyledItem>
+                </NavLink>
+              );
+            })}
+          </StyledSideBar>
+          <Route exact path="/home/Buzz" render={() => <Buzz />} />
+          <Route exact path="/home/Complaints" render={() => <Complaints />} />
+          {/* {(() => {
+            if (this.props.isAdmin)
+              return ( */}
+          <Route
+            exact
+            path="/home/Resolve"
+            render={props => <Resolve {...props} />}
+          />
+          {/* );
+          })()} */}
+        </Router>
+      </React.Fragment>
     );
   }
 }

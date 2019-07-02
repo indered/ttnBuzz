@@ -4,16 +4,17 @@
 }
 .body {
   display: flex;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 .body-content {
-  width: 70%;
+  width: 50%;
   margin-left: 80px;
 }
 
 .fab {
-  color: rgb(206, 89, 89);
-
+  color: rgb(185, 81, 81);
   font-size: 50px;
 }
 
