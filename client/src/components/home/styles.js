@@ -50,4 +50,5 @@ export const Cover = styled.div`
   height: 250px;
   width: 100%;
   background-size: cover;
+  background-attachment: fixed;
 `;

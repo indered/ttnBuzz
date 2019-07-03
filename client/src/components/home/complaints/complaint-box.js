@@ -12,16 +12,14 @@ class ComplaintBox extends Component {
     },
     picture: {}
   };
-
+  userDepartment = "";
   componentDidMount() {
-    const userDepartment = this.props.user.department;
     const departments = this.state.complaint.department.filter(
-      d => d !== userDepartment
+      d => d !== this.userDepartment
     );
+
     this.setState({
-      complaint: {
-        department: departments[0]
-      }
+      complaint: { department: departments[0] }
     });
   }
 
@@ -68,6 +66,7 @@ class ComplaintBox extends Component {
   };
 
   render() {
+    this.userDepartment = this.props.user.department;
     return (
       <div className="complaint-comp">
         <div id="complaintBoxTitle">
