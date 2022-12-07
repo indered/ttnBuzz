@@ -25,7 +25,7 @@
     "datauri": "^2.0.0",
     "dotenv": "^8.0.0",
     "ejs": "^2.5.7",
-    "express": "^4.16.1",
+    "express": "^4.17.3",
     "mongoose": "^4.12.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
